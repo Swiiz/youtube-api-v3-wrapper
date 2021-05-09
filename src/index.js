@@ -162,7 +162,7 @@ function serializeIntoURIParams(params) {
     return str;
 }
 
-class NotProperlyAuthorizedError extends Error {
+module.exports.NotProperlyAuthorizedError = class NotProperlyAuthorizedError extends Error {
     constructor(goodAuthType) {
         super(`You must use ${goodAuthType} authorization type to use this method!`);
     }
