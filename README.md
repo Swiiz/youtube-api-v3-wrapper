@@ -15,7 +15,7 @@ const YoutubeAPI = require("../src/index");
 
 // ⚠ Subject to changes
 // Find your YOUTUBE API KEY => https://developers.google.com/youtube/v3/docs
-const youtube = new YoutubeAPI("YOUTUBE API KEY");
+const youtube = new YoutubeAPI("key", "YOUTUBE API KEY");
 
 // YoutubeAPI#getVideosByMostPopular(maxResults, params)
 youtube.getVideosByMostPopular(10, { regionCode: "US" })
