@@ -11,11 +11,11 @@ npm install youtube-v3-api
 
 🛒 Sample code snippet:
 ```JS
-const YoutubeAPI = require("../src/index");
+const { YoutubeAPIClient } = require("../src/index");
 
 // ⚠ Subject to changes
 // Find your YOUTUBE API KEY => https://developers.google.com/youtube/v3/docs
-const youtube = new YoutubeAPI("key", "YOUTUBE API KEY");
+const youtube = new YoutubeAPIClient("key", "YOUTUBE API KEY");
 
 // YoutubeAPI#getVideosByMostPopular(maxResults, params)
 youtube.getVideosByMostPopular(10, { regionCode: "US" })
