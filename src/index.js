@@ -11,7 +11,7 @@ const API_URL = "https://www.googleapis.com/youtube/v3/";
 const GGA_OAUTH2_URL = "https://accounts.google.com/o/oauth2/v2/"
 const API_OAUTH2_URL = "https://oauth2.googleapis.com/";
 
-class GoogleAuth2 {
+class GoogleOAuth2 {
     constructor(clientId, clientSecret, redirectURI) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
@@ -228,7 +228,7 @@ class NotProperlyAuthorizedError extends Error {
 }
 
 module.exports = {
-    GoogleAuth2,
+    GoogleOAuth2,
     YoutubeAPIClient,
     NotProperlyAuthorizedError,
 }
