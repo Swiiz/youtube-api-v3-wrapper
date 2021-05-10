@@ -27,7 +27,7 @@ youtube.getVideosByMostPopular(10, { regionCode: "US" })
 ```
 
 ### 📣 Documentation
-Refer to the offical Youtube API documentation: https://developers.google.com/youtube/v3/doc
+Refer to the offical Youtube API documentation: https://developers.google.com/youtube/v3/docs
 
 ### ✅ Todo:
 - Typescript support
