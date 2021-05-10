@@ -1,1 +1,1 @@
-const { YoutubeAPIClient, GoogleAuth2 } = require("../src/index");
+const { YoutubeAPIClient, GoogleOAuth2 } = require("../src/index");
