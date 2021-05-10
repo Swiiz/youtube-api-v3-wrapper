@@ -1,8 +1,8 @@
 # 🎥 Youtube API V3 (Wrapper)
 
-[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
-
 __🔭 A easy to use wrapper around the Youtube Data API which is class based and asynchronous.__
+
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
 
 ☑ Installation:
 ```
@@ -31,3 +31,5 @@ Refer to the offical Youtube API documentation: https://developers.google.com/yo
 
 ### ✅ Todo:
 - Typescript support
+- Documentation
+- Youtube Oauth
