@@ -8,23 +8,78 @@
 const https = require('https');
 
 const API_URL = "https://www.googleapis.com/youtube/v3/";
+const GGA_OAUTH2_URL = "https://accounts.google.com/o/oauth2/v2/"
+const API_OAUTH2_URL = "https://oauth2.googleapis.com/";
 
-module.exports = class YoutubeAPI {
-    //TODO add other ways of auth
-    constructor(key) {
-        this.key = key;
-        this.oauth = false;
+class GoogleAuth2 {
+    constructor(clientId, clientSecret, redirectURI) {
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
+        this.redirectURI = redirectURI;
+    }
+
+    // For scopes see: https://developers.google.com/identity/protocols/oauth2/scopes
+    getOauth2Link(scope, access_type = "offline", response_type = "code", params) {
+        return makeUrl(`${GGA_OAUTH2_URL}auth`,
+            {
+                client_id: this.clientId,
+                redirect_uri: this.redirectURI,
+                scope,
+                access_type,
+                response_type,
+                ...params
+            });
+    }
+
+    async #getToken(params) {
+        return getJSON(`${API_OAUTH2_URL}token`,
+            {
+                client_id: this.clientId,
+                client_secret: this.clientSecret,
+                redirect_uri: this.redirectURI,
+                ...params
+            });
+    }
+
+    async getTokenFromCode(code, params) {
+        return this.#getToken({
+            code,
+            grant_type: "authorization_code",
+            ...params
+        });
+    }
+
+    async refreshToken(refresh_token, params) {
+        return this.#getToken({
+            refresh_token,
+            grant_type: "refresh_token",
+            ...params
+        });
+    }
+
+    async revokeToken(token) {
+        return getJSON(`${API_OAUTH2_URL}revoke`, { token });
+    }
+
+}
+
+class YoutubeAPIClient {
+    // authType can be either "key" or "oauth2", key is either the api key or the oauth2 token
+    constructor(authType, key) {
+        if(authType !== "key" && authType !== "oauth2") return;
+        this.authParam = authType === "oauth2" ? {key} : {access_token: key};
+        this.useOauth2 = authType === "oauth2";
     }
 
     async searchAll(q, maxResults, params) {
         return getJSON(`${API_URL}search`,
             {
-                key: this.key,
+                ...this.authParam,
                 part: "snippet",
                 maxResults,
                 q,
                 ...params
-            })
+            });
     }
 
     async searchVideos(q, maxResults, params) {
@@ -48,7 +103,7 @@ module.exports = class YoutubeAPI {
     async #getChannels(maxResults, params) {
         return getJSON(`${API_URL}channels`,
             {
-                key: this.key,
+                ...this.authParam,
                 part: "snippet",
                 maxResults,
                 ...params
@@ -68,7 +123,7 @@ module.exports = class YoutubeAPI {
     }
 
     async getOwnedChannels(maxResults, params) {
-        return this.oauth ? this.#getChannels(maxResults, {
+        return this.useOauth2 ? this.#getChannels(maxResults, {
             mine: true, ...params
         }) : Promise.reject(new NotProperlyAuthorizedError("oauth"));
     }
@@ -76,7 +131,7 @@ module.exports = class YoutubeAPI {
     async #getVideos(maxResults, params) {
         return getJSON(`${API_URL}videos`,
             {
-                key: this.key,
+                ...this.authParam,
                 part: "snippet",
                 maxResults,
                 ...params
@@ -96,7 +151,7 @@ module.exports = class YoutubeAPI {
     }
 
     async getVideosByMyRating(maxResults, myRating, params) {
-        return this.oauth ? this.#getVideos(maxResults, {
+        return this.useOauth2 ? this.#getVideos(maxResults, {
             myRating, ...params
         }) : Promise.reject(new NotProperlyAuthorizedError("oauth"));
     }
@@ -104,7 +159,7 @@ module.exports = class YoutubeAPI {
     async #getPlaylists(maxResults, params) {
         return getJSON(`${API_URL}playlists`,
             {
-                key: this.key,
+                ...this.authParam,
                 part: "snippet",
                 maxResults,
                 ...params
@@ -124,7 +179,7 @@ module.exports = class YoutubeAPI {
     }
 
     async getOwnedPlaylists(maxResults, params) {
-        return this.oauth ? this.#getPlaylists(maxResults, {
+        return this.useOauth2 ? this.#getPlaylists(maxResults, {
             mine: true, ...params
         }) : Promise.reject(new NotProperlyAuthorizedError("oauth"));
     }
@@ -132,7 +187,7 @@ module.exports = class YoutubeAPI {
 
 function getJSON(url, params) {
     return new Promise((resolve, reject) => {
-        https.get(url + (url.includes("?") ? "&" : "?") + serializeIntoURIParams(params), (resp) => {
+        https.get(makeUrl(url, params), (resp) => {
             let data = "";
             resp.on("data", (chunk) => {
                 data += chunk;
@@ -151,10 +206,14 @@ function getJSON(url, params) {
     })
 }
 
+function makeUrl(url, params) {
+    return url + (url.includes("?") ? "&" : "?") + serializeIntoURIParams(params);
+}
+
 function serializeIntoURIParams(params) {
     let str = "";
     for (const key in params) {
-        if (str != "") {
+        if (str !== "") {
             str += "&";
         }
         str += key + "=" + encodeURIComponent(params[key]);
@@ -162,8 +221,14 @@ function serializeIntoURIParams(params) {
     return str;
 }
 
-module.exports.NotProperlyAuthorizedError = class NotProperlyAuthorizedError extends Error {
+class NotProperlyAuthorizedError extends Error {
     constructor(goodAuthType) {
         super(`You must use ${goodAuthType} authorization type to use this method!`);
     }
+}
+
+module.exports = {
+    GoogleAuth2,
+    YoutubeAPIClient,
+    NotProperlyAuthorizedError,
 }

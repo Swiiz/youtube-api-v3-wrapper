@@ -1,12 +1,11 @@
 {
   "name": "youtube-api-v3-wrapper",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "",
   "main": "src/index.js",
   "scripts": {
     "test": "nodemon tests/test.js"
   },
-  "keywords": [],
   "author": "Swiiz",
   "license": "MIT",
   "homepage": "https://github.com/Swiiz/youtube-api-v3-wrapper#readme",
@@ -14,6 +13,17 @@
     "type": "git",
     "url": "https://github.com/Swiiz/youtube-api-v3-wrapper.git"
   },
+  "keywords": [
+    "youtube",
+    "api",
+    "youtube-api",
+    "youtube-api-v3",
+    "wrapper",
+    "google",
+    "class",
+    "promise",
+    "async"
+  ],
   "devDependencies": {
     "nodemon": "^2.0.7"
   }
