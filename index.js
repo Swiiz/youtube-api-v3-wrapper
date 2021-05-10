@@ -153,7 +153,7 @@ class YoutubeAPIClient {
     async getVideosByMyRating(myRating, maxResults, params) {
         return this.useOauth2 ? this.#getVideos(maxResults, {
             myRating, ...params
-        }) : Promise.reject(new NotProperlyAuthorizedError("oauth"));
+        }) : Promise.reject(new NotProperlyAuthorizedError("oauth2"));
     }
 
     async #getPlaylists(maxResults, params) {
@@ -181,7 +181,7 @@ class YoutubeAPIClient {
     async getOwnedPlaylists(maxResults, params) {
         return this.useOauth2 ? this.#getPlaylists(maxResults, {
             mine: true, ...params
-        }) : Promise.reject(new NotProperlyAuthorizedError("oauth"));
+        }) : Promise.reject(new NotProperlyAuthorizedError("oauth2"));
     }
 }
 
