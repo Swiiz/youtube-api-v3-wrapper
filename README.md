@@ -1,6 +1,6 @@
 # 🎥 Youtube API V3 (Wrapper)
 
-🔭 A easy to use wrapper around the Youtube Data API which is class based and asynchronous.
+🔭 An easy to use wrapper around the Youtube Data API which is class based and asynchronous.
 
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
 
