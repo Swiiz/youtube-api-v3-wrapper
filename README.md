@@ -32,4 +32,3 @@ Refer to the offical Youtube API documentation: https://developers.google.com/yo
 ### ✅ Todo:
 - Typescript support
 - Documentation
-- Youtube Oauth
