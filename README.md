@@ -11,7 +11,7 @@ npm install youtube-v3-api-wrapper
 
 🛒 Sample code snippet:
 ```JS
-const { YoutubeAPIClient } = require("../src/index");
+const { YoutubeAPIClient } = require("youtube-v3-api-wrapper");
 
 // ⚠ Subject to changes
 // Find your YOUTUBE API KEY => https://developers.google.com/youtube/v3/docs
