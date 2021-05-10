@@ -6,7 +6,7 @@ __🔭 A easy to use wrapper around the Youtube Data API which is class based an
 
 ☑ Installation:
 ```
-npm install youtube-v3-api 
+npm install youtube-v3-api-wrapper
 ```
 
 🛒 Sample code snippet:
