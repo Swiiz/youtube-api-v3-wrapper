@@ -1,8 +1,9 @@
 {
   "name": "youtube-api-v3-wrapper",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "test": "nodemon tests/test.js"
   },

@@ -66,8 +66,8 @@ class GoogleOAuth2 {
 class YoutubeAPIClient {
     // authType can be either "key" or "oauth2", key is either the api key or the oauth2 token
     constructor(authType, key) {
-        if(authType !== "key" && authType !== "oauth2") return;
-        this.authParam = authType === "oauth2" ? {key} : {access_token: key};
+        if(authType !== "key" && authType !== "oauth2") return; // TODO ERROR
+        this.authParam = authType === "key" ? { key } : {access_token: key};
         this.useOauth2 = authType === "oauth2";
     }
 
@@ -150,7 +150,7 @@ class YoutubeAPIClient {
         })
     }
 
-    async getVideosByMyRating(maxResults, myRating, params) {
+    async getVideosByMyRating(myRating, maxResults, params) {
         return this.useOauth2 ? this.#getVideos(maxResults, {
             myRating, ...params
         }) : Promise.reject(new NotProperlyAuthorizedError("oauth"));
