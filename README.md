@@ -31,3 +31,4 @@ Refer to the offical Youtube API documentation: https://developers.google.com/yo
 
 ### ✅ Todo:
 - Documentation
+- Add more functions
