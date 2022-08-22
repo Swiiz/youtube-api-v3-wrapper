@@ -6,7 +6,7 @@
 
 ☑ Installation:
 ```
-npm install youtube-v3-api-wrapper
+npm install youtube-api-v3-wrapper
 ```
 
 🛒 Sample code snippet:
